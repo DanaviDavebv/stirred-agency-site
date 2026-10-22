@@ -361,13 +361,14 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--neon); outline-
 .foot-mark svg { width: 100%; height: auto; }
 .foot-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 32px; font-size: var(--fs-small); letter-spacing: 0.16em; text-transform: uppercase; color: rgba(var(--white-rgb), 0.5); }
 
-/* V1 review pill */
+/* Mobile language pill */
 .review {
+  display: none !important;
   position: fixed; z-index: 30;
   left: calc(16px + env(safe-area-inset-left, 0px));
   bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   display: flex; align-items: center; gap: 4px;
-  padding: 5px 6px 5px 16px; border-radius: 40px;
+  padding: 5px; border-radius: 40px;
   background: rgba(20, 20, 20, 0.72);
   -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.14);
@@ -376,7 +377,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--neon); outline-
 .review strong { color: var(--white); font-weight: 500; margin-right: 8px; }
 .review button { padding: 8px 12px; border-radius: 30px; color: rgba(var(--white-rgb), 0.55); }
 .review button[aria-pressed="true"] { background: rgba(255, 255, 255, 0.14); color: var(--white); }
-.review .lang-in-review { display: none; gap: 2px; padding-left: 6px; margin-left: 4px; border-left: 1px solid rgba(255, 255, 255, 0.18); }
+.review .lang-in-review { display: none; gap: 2px; }
 
 /* ══ Responsive — tokens restated ══ */
 @media (max-width: 1600px) {
@@ -442,6 +443,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--neon); outline-
 }
 @media (max-width: 560px) {
   .sp-nav .sp-lang { display: none; }
+  .review { display: flex !important; }
   .review .lang-in-review { display: flex; }
   :root { --fs-hero-script: 28px; --btn-w: 150px; }
 }
@@ -658,12 +660,12 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--neon); outline-
           <span class="b script ramp" data-i18n="ctB">Laten we praten.</span>
         </h2>
         <div class="mailrow">
-          <span class="mail" id="mailAddr">hello@stirred.agency</span>
+          <span class="mail" id="mailAddr">info@stirred.agency</span>
           <span>·</span>
           <span data-i18n="ctPlace">Antwerpen, België</span>
         </div>
         <div class="sp-cta">
-          <a class="sp-btn sp-btn-solid" id="mailBtn" href="mailto:hello@stirred.agency?subject=Kennismaking%20Stirred">
+          <a class="sp-btn sp-btn-solid" id="mailBtn" href="mailto:info@stirred.agency?subject=Kennismaking%20Stirred">
             <span data-i18n="ctMail">Stuur een mail</span>
             <svg class="sp-disc" viewBox="0 0 65 65" aria-hidden="true"><circle cx="32.5" cy="32.5" r="32.5"/><path d="M24 32C23.4477 32 23 32.4477 23 33C23 33.5523 23.4477 34 24 34V33V32ZM42.7071 33.7071C43.0976 33.3166 43.0976 32.6834 42.7071 32.2929L36.3431 25.9289C35.9526 25.5384 35.3195 25.5384 34.9289 25.9289C34.5384 26.3195 34.5384 26.9526 34.9289 27.3431L40.5858 33L34.9289 38.6569C34.5384 39.0474 34.5384 39.6805 34.9289 40.0711C35.3195 40.4616 35.9526 40.4616 36.3431 40.0711L42.7071 33.7071ZM24 33V34H42V33V32H24V33Z"/></svg>
           </a>
@@ -687,9 +689,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--neon); outline-
   </div>
 </div>
 
-<div class="review" role="group" aria-label="V1 review">
-  <strong>V1</strong>
-  <span data-i18n="rvNote">concept</span>
+<div class="review" role="group" aria-label="Taal">
   <div class="sp-lang lang-in-review" role="group" aria-label="Taal" style="position:static;transform:none">
     <button type="button" id="langNl2" data-lang="nl" aria-pressed="true">NL</button>
     <button type="button" id="langEn2" data-lang="en" aria-pressed="false">EN</button>
@@ -784,7 +784,7 @@ let LANG = "nl";
     const t = T[LANG];
     document.documentElement.lang = LANG;
     document.querySelectorAll("[data-i18n]").forEach((el) => { const k = el.dataset.i18n; if (t[k] != null) el.textContent = t[k]; });
-    document.getElementById("mailBtn").href = "mailto:hello@stirred.agency?subject=" + encodeURIComponent(t.subject);
+    document.getElementById("mailBtn").href = "mailto:info@stirred.agency?subject=" + encodeURIComponent(t.subject);
     document.getElementById("copyNote").textContent = "";
     document.querySelectorAll("[data-lang]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === LANG)));
   };
@@ -806,7 +806,7 @@ document.querySelectorAll("[data-scroll]").forEach((a) => a.addEventListener("cl
 
 /* ── Copy email ───────────────────────────────────────── */
 document.getElementById("copyBtn").addEventListener("click", () => {
-  const addr = "hello@stirred.agency", note = document.getElementById("copyNote");
+  const addr = "info@stirred.agency", note = document.getElementById("copyNote");
   const fallback = () => {
     const r = document.createRange(); r.selectNodeContents(document.getElementById("mailAddr"));
     const s = getSelection(); s.removeAllRanges(); s.addRange(r);
